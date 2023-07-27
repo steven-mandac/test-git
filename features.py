@@ -1,9 +1,10 @@
 import pandas as pd
+from random import randint
 
 class Feature:
     
     def __init__(self):
-        self.id = 0
+        self.id = randint(1000, 9999)
         self.author = ""
         self.title = ""
         self.volume = 0
@@ -15,10 +16,7 @@ class Feature:
         except FileNotFoundError:
             self.books = []
         else:
-            self.books = data.to_dict(orient="records")
-            for book in self.books:
-                book['ID'] = self.id + 1
-                self.id += 1            
+            self.books = data.to_dict(orient="records")      
     
     def user_input(self, prompt):
         if prompt == "add":
@@ -31,14 +29,19 @@ class Feature:
             to_remove = input("Enter the ISBN of the book you want to remove\n (input digits only): ")
             isbn = self.reformat_isbn(to_remove)
             self.remove_data(isbn)
-        elif prompt == "save":
-            self.save_data()
         elif prompt == "exit":
-            self.save_data()
+            warn = input("You are about to close the program. Save changes? y/n: ").lower()
+            if warn == 'y':
+                self.save_data()
             self.status = False
     
     def get_data(self):
-        self.id = len(self.books) + 1
+        if len(self.books) > 0:
+            for book in self.books:
+                if self.id == book['ID']:
+                    self.id = randint(1000, 9999)
+                    break
+        print(self.id)    
         self.isbn = ""
         new_isbn = ""
         self.author = input("Author: ").title()
@@ -74,7 +77,7 @@ class Feature:
     def read_data(self):
         for book in self.books:
             print(
-                "Book %i | Author: %s | Title: %s | Volume: %i | ISBN: %s" 
+                "ID-%i | Author: %s | Title: %s | Volume: %i | ISBN: %s" 
                 % (book['ID'], book['Author'], book['Title'], book['Volume'], book['ISBN'])
             )
             
@@ -100,12 +103,20 @@ class Feature:
             if isbn == book['ISBN']:
                 book_index = self.books.index(book)
                 break
-            
+        
+        author = self.books[book_index]['Author']
+        title = self.books[book_index]['Title']
+        volume = self.books[book_index]['Volume']
+        isbn = self.books[book_index]['ISBN']    
+        
         if book_index is None:
             print("404: Book not found.")
             self.user_input("remove")
-        else:            
-            self.books.pop(book_index)
+        else:
+            warn = input(f"You are about to remove this book\n Author: {author} | Title: {title} | Volume: {volume} | ISBN: {isbn}\n y or n: ").lower()
+            if warn == 'y':
+                self.books.pop(book_index)
+                
       
     def reformat_isbn(self, isbn):
         isbn_update = ""

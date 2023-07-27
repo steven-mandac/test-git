@@ -1,4 +1,3 @@
-import pandas as pd
 from features import Feature
 from art import title_art
 from clear import clear
