@@ -93,7 +93,7 @@ class Feature:
             print("404: Book not found.")
             self.user_input("update")
         else:
-            print(f" ISBN*{self.books[book_index]['ISBN']}")
+            print(f" ISBN* {self.books[book_index]['ISBN']}")
             self.books[book_index]['Author'] = input("(Update) Author: ").title()
             self.books[book_index]['Title'] = input("(Update) Title: ").title()
             self.books[book_index]['Volume'] = int(input("(Update) Volume: "))
