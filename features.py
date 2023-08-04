@@ -45,7 +45,7 @@ class Feature:
             isbn = self.reformat_isbn(to_remove)
             self.remove_data(isbn)
         elif prompt == "exit":
-            warn = input("You are about to close the program. Save changes? y/n: ").lower()
+            warn = input("You are about to leave. Save changes? y/n: ").lower()
             if warn == 'y':
                 self.save_data()
             self.status = False

@@ -13,5 +13,5 @@ while feat.status:
         feat.get_data()               
     else:
         print("Do you want to add, update or remove a book?")
-        prompt = input("  Type add/update/remove accordingly: ").lower()
+        prompt = input("  Type add/update/remove accordingly otherwise type exit to leave: ").lower()
         feat.user_input(prompt)
